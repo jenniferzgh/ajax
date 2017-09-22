@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf8"/>
+		<link href="service.php" />
+		<title></title>
+	</head>
+	<style>
+		*{
+			font-size: 30px;
+			font-family: "微软雅黑";
+			line-height: 1.8;
+		}
+	</style>
+	<body>
+		<lable>查询</lable>
+		<input type="text" id="keyword"/>
+		<button id="search" >查询</button>
+		<p id="searchResult">xianshi</p>
+		
+	
+		<h1>新建</h1>
+		<lable>学生姓名</lable>
+		<input type="text" id="staffName"/></br>
+		<lable>学生编号</lable>
+		<input type="text" id="staffNumber"/></br>
+		<lable>学生性别</lable>
+		<select id="selectSex">
+			<option >女</option>
+			<option >男</option>
+		</select>
+		</br>
+		<lable>职位</lable>
+		<input type="text" id="staffJob"/></br>
+		<button id="save">保存</button>
+		<p id="saveResult">保存结果</p>
+		
+		<script>
+			document.getElementById("search").onclick=function(){
+				var request=new XMLHttpRequest();
+
+			
+				request.open("GET","service.php?number="+document.getElementById("keyword").value);
+				request.send();
+				request.onreadystatechange=function(){
+					if(request.readyState===4){
+						if(request.status===200){
+							document.getElementById("searchResult").innerHTML=request.responseText;
+						}
+						else{alert("发生错误："+request.status)}
+					}
+				}
+			}
+
+			document.getElementById("save").onclick=function(){
+				var request=new XMLHttpRequest();
+				request.open("POST","service.php");
+				var data="name="+document.getElementById("staffName").value  //&表示空格
+				+"&number="+document.getElementById("staffNumber").value
+				+"&sex="+document.getElementById("selectSex").value
+				+"&job="+document.getElementById("staffJob").value;
+                request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+				request.send("data");
+				request.onreadystatechange=function(){
+					if(request.readyState===4){
+						if(request.status===200){
+                            document.getElementById("saveResult").innerHTML=request.responseText;
+						}
+						else{alert("发生错误："+request.status)}
+					}
+				}
+			}
+		</script>
+	</body>
+</html>
